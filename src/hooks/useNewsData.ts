@@ -4,7 +4,12 @@ import axiosInstance from "../services/connection";
 
 const baseUrlNewsData = import.meta.env.VITE_BASE_URL_NEWSDATA;
 const apiKeyNewsData = import.meta.env.VITE_API_KEY_NEWSDATA;
-  
+
+const axiosNewData = axiosInstance(
+  baseUrlNewsData,
+  apiKeyNewsData
+);
+
 interface FetchResponseNewsData {
   status: string;
   totalResults: number;
@@ -23,11 +28,6 @@ interface NewData {
   language: string;
   image_url: string;
 }
-
-const axiosNewData = axiosInstance(
-  baseUrlNewsData,
-  apiKeyNewsData
-);
 
 const apiClientNewData = new APIClient<FetchResponseNewsData>("/latest", axiosNewData);
 
