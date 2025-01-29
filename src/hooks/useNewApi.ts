@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import APIClient, { axiosInstance } from "../services/api-client";
+import APIClient from "../services/api-client";
+import axiosInstance from "../services/connection";
 
 const baseUrlNewsApi = import.meta.env.VITE_BASE_URL_NEWSAPI;
 const apiKeyNewsApi = import.meta.env.VITE_API_KEY_NEWSAPI;
@@ -8,6 +9,12 @@ const axiosNewAPI = axiosInstance(
   baseUrlNewsApi,
   apiKeyNewsApi
 );
+
+interface FetchResponseNewsApi {
+  status: string;
+  totalResults: number;
+  articles: NewAPI[];
+}
 
 interface NewAPI {
   title: string;
@@ -19,7 +26,7 @@ interface NewAPI {
   publishedAt: Date;
 }
 
-const apiClientNewAPI = new APIClient<NewAPI>("/everything", axiosNewAPI);
+const apiClientNewAPI = new APIClient<FetchResponseNewsApi>("/everything", axiosNewAPI);
 
 const useNewsApi = () => useQuery({
     queryKey: ["articlesNewAPI"],

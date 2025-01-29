@@ -46,9 +46,6 @@ const NewsList = () => {
           </Box>
         ))}
       </SimpleGrid>
-      {/* <SimpleGrid columns={{ base: 1, md: 2 }}>
-        <Box>{newsApi?.articles.map((article) => article.title)}</Box>
-      </SimpleGrid> */}
     </>
   );
 };
