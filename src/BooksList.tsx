@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Heading, Image, SimpleGrid } from "@chakra-ui/react";
 import useBooks from "./hooks/useOpenLibrary";
 
 const BooksList = () => {
@@ -10,7 +10,14 @@ const BooksList = () => {
   return (
     <SimpleGrid column={{ base: 1, md: 2 }}>
       {data.reading_log_entries.map((entry) => (
-        <Box key={entry.work.key}>{entry?.work.title}</Box>
+        <Box key={entry.work.key}>
+          <Heading as="h2" fontSize="xl" color="gray.100" padding={2}>
+            {entry?.work.title}
+          </Heading>
+          <Image
+            src={`https://covers.openlibrary.org/b/id/${entry?.work.cover_id}-M.jpg`}
+          />
+        </Box>
       ))}
     </SimpleGrid>
   );
