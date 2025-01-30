@@ -9,10 +9,10 @@ const axiosOpenLibrary = axiosInstance(baseUrlOpenLibrary);
 interface FetchResponseBook {
     page: number;
     numFound: number;
-    reading_log_entries: reading_log_entry[];
+    reading_log_entries: Reading_log_entry[];
 }
 
-interface reading_log_entry {
+export interface Reading_log_entry {
     work: Book;
     logged_edition: string;
     logged_data: Date;

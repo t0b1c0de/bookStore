@@ -1,5 +1,7 @@
-import { Box, Heading, Image, SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
+import BookCard from "./BookCard";
 import useBooks from "./hooks/useOpenLibrary";
+import BookCardContainer from "./BookCardContainer";
 
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
@@ -8,16 +10,11 @@ const BooksList = () => {
   if (error || !data) return "Error";
 
   return (
-    <SimpleGrid column={{ base: 1, md: 2 }}>
+    <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={6}>
       {data.reading_log_entries.map((entry) => (
-        <Box key={entry.work.key}>
-          <Heading as="h2" fontSize="xl" color="gray.100" padding={2}>
-            {entry?.work.title}
-          </Heading>
-          <Image
-            src={`https://covers.openlibrary.org/b/id/${entry?.work.cover_id}-M.jpg`}
-          />
-        </Box>
+        <BookCardContainer>
+          <BookCard key={entry.work.key} entry={entry} />
+        </BookCardContainer>
       ))}
     </SimpleGrid>
   );
