@@ -12,8 +12,8 @@ const BooksList = () => {
   return (
     <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={6}>
       {data.reading_log_entries.map((entry) => (
-        <BookCardContainer>
-          <BookCard key={entry.work.key} entry={entry} />
+        <BookCardContainer key={entry.work.key}>
+          <BookCard entry={entry} />
         </BookCardContainer>
       ))}
     </SimpleGrid>

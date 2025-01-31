@@ -15,17 +15,19 @@ interface FetchResponseBook {
 export interface Reading_log_entry {
     work: Book;
     logged_edition: string;
-    logged_data: Date;
+    logged_data: string;
 }
 
-interface Book {
+export interface Book {
     title: string;
     author_names: string[];
+    first_publish_year: number;
     key: string;
     cover_id: number;
 }
 
 const apiClientOpenLibrary = new APIClient<FetchResponseBook>("/want-to-read.json",axiosOpenLibrary);
+
 
 const useBooks = () => useQuery({
     queryKey: ["books"],
