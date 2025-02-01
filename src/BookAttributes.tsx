@@ -19,9 +19,11 @@ const BookAttributes = ({ work }: Props) => {
       <Box marginY={2}>
         <Heading fontSize="md">Author(s):</Heading>
         <List>
-          {work?.author_names.map((author) => (
-            <ListItem key={author}>{author}</ListItem>
-          ))}
+          {work?.author_names
+            .filter((value, index, self) => self.indexOf(value) === index)
+            .map((author) => (
+              <ListItem key={author}>{author}</ListItem>
+            ))}
         </List>
       </Box>
       <Box marginY={2}>
