@@ -1,12 +1,32 @@
 import { Box, Heading, Input } from "@chakra-ui/react";
+import { useRef } from "react";
+import { Params } from "./BooksList";
 
-const SearchInput = () => {
+interface Props {
+  onSearch: (params: Params) => void;
+}
+
+const SearchInput = ({ onSearch }: Props) => {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
     <Box padding={5} textAlign="left">
       <Heading fontSize="xl" padding={2}>
         Search
       </Heading>
-      <Input borderRadius={20} placeholder="Search games..." variant="filled" />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (ref.current) onSearch({ q: ref.current.value });
+        }}
+      >
+        <Input
+          ref={ref}
+          borderRadius={20}
+          placeholder="Search games..."
+          variant="filled"
+        />
+      </form>
     </Box>
   );
 };

@@ -4,8 +4,7 @@ import {
   Heading,
   List,
   ListItem,
-  Stack,
-  Text,
+  Text
 } from "@chakra-ui/react";
 import { Book } from "./hooks/useOpenLibrary";
 
