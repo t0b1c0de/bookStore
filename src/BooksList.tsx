@@ -2,32 +2,17 @@ import { Box, Heading, List, ListItem, SimpleGrid } from "@chakra-ui/react";
 import BookCard from "./BookCard";
 import BookCardContainer from "./BookCardContainer";
 import useBooks from "./hooks/useOpenLibrary";
+import useSearchBook from "./hooks/useSearchBook";
 import SearchInput from "./SearchInput";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import useSearchBookStore, { Params } from "./useSearchBookStore";
-
-interface GameSearched {
-  docs: BookSearched[];
-}
-
-interface BookSearched {
-  key: string;
-  title: string;
-}
+import useSearchBookStore from "./useSearchBookStore";
 
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
+  const dataSearched = useSearchBook();
 
   const params = useSearchBookStore((s) => s.params);
   const setKeyword = useSearchBookStore((s) => s.setKeyword);
-  const [dataSearched, setDataSearched] = useState<GameSearched>({ docs: [] });
 
-  useEffect(() => {
-    axios
-      .get("https://openlibrary.org/search.json", { params })
-      .then((res) => setDataSearched(res.data));
-  }, [params]);
 
   if (isLoading) return "Loading...";
   if (error || !data) return "Error";
