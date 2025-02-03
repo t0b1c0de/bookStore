@@ -5,10 +5,7 @@ import useBooks from "./hooks/useOpenLibrary";
 import SearchInput from "./SearchInput";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-export interface Params {
-  q: string;
-}
+import useSearchBookStore, { Params } from "./useSearchBookStore";
 
 interface GameSearched {
   docs: BookSearched[];
@@ -22,8 +19,9 @@ interface BookSearched {
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
 
+  const params = useSearchBookStore((s) => s.params);
+  const setKeyword = useSearchBookStore((s) => s.setKeyword);
   const [dataSearched, setDataSearched] = useState<GameSearched>({ docs: [] });
-  const [params, setParams] = useState<Params>({ q: "" });
 
   useEffect(() => {
     axios
@@ -31,16 +29,12 @@ const BooksList = () => {
       .then((res) => setDataSearched(res.data));
   }, [params]);
 
-  const onSearch = (params: Params) => {
-    setParams(params);
-  };
-
   if (isLoading) return "Loading...";
   if (error || !data) return "Error";
 
   return (
     <>
-      <SearchInput onSearch={onSearch} />
+      <SearchInput onSearch={setKeyword} />
       {params.q ? (
         <Box>
           <Heading fontSize="3xl" padding={3}>

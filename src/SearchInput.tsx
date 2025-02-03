@@ -1,9 +1,8 @@
 import { Box, Heading, Input } from "@chakra-ui/react";
 import { useRef } from "react";
-import { Params } from "./BooksList";
 
 interface Props {
-  onSearch: (params: Params) => void;
+  onSearch: (q: string) => void;
 }
 
 const SearchInput = ({ onSearch }: Props) => {
@@ -17,7 +16,7 @@ const SearchInput = ({ onSearch }: Props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (ref.current) onSearch({ q: ref.current.value });
+          if (ref.current) onSearch(ref.current.value);
         }}
       >
         <Input
