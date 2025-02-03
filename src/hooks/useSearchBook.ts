@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useSearchBookStore from "../useSearchBookStore";
 
 interface Datasearched {
+  numFound: number;
   docs: BookSearched[];
 }
 
@@ -12,16 +13,21 @@ interface BookSearched {
 }
 
 const useSearchBook = () => {
-    const [dataSearched, setDataSearched] = useState<Datasearched>({ docs: [] });
+    const [dataSearched, setDataSearched] = useState<Datasearched>({ numFound: 0, docs: [] });
+    const [isLoadingSearchBook, setIsLoadingSeachBook] = useState(false);
     const params = useSearchBookStore((s) => s.params);
     
     useEffect(() => {
+        setIsLoadingSeachBook(true);
         axios
         .get("https://openlibrary.org/search.json", { params })
-        .then((res) => setDataSearched(res.data));
+        .then((res) => {
+            setDataSearched(res.data)
+            setIsLoadingSeachBook(false);
+        });
     }, [params]);
 
-    return dataSearched;
+    return {dataSearched, isLoadingSearchBook};
 }
 
 export default useSearchBook;
