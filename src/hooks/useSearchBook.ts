@@ -16,6 +16,7 @@ const useSearchBook = () => {
     const [dataSearched, setDataSearched] = useState<Datasearched>({ numFound: 0, docs: [] });
     const [isLoadingSearchBook, setIsLoadingSeachBook] = useState(false);
     const params = useSearchBookStore((s) => s.params);
+    const type = useSearchBookStore(s => s.type);
     
     useEffect(() => {
         setIsLoadingSeachBook(true);
@@ -25,7 +26,7 @@ const useSearchBook = () => {
             setDataSearched(res.data)
             setIsLoadingSeachBook(false);
         });
-    }, [params]);
+    }, [params, type]);
 
     return {dataSearched, isLoadingSearchBook};
 }

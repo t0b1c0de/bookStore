@@ -1,6 +1,6 @@
-import { Box, Heading, Input } from "@chakra-ui/react";
-import { useRef, useState } from "react";
-import BookFilter from "./BookFilter";
+import { Box, Heading, Input, Radio, RadioGroup } from "@chakra-ui/react";
+import { useRef } from "react";
+import useSearchBookStore from "./useSearchBookStore";
 
 interface Props {
   onSearch: (p: string, type: string) => void;
@@ -8,10 +8,13 @@ interface Props {
 
 const SearchInput = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
-  const [type, setType] = useState("keyword");
+  const type = useSearchBookStore((s) => s.type);
+  const setType = useSearchBookStore((s) => s.setType);
 
-  const getType = (newType: string) => {
-    setType(newType);
+  const triggerSearch = (searchType: string) => {
+    if (ref.current) {
+      onSearch(ref.current.value, searchType);
+    }
   };
 
   return (
@@ -22,9 +25,7 @@ const SearchInput = ({ onSearch }: Props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (ref.current) {
-            onSearch(ref.current.value, type);
-          }
+          triggerSearch(type);
         }}
       >
         <Input
@@ -33,8 +34,22 @@ const SearchInput = ({ onSearch }: Props) => {
           placeholder="Search games..."
           variant="filled"
         />
+        <RadioGroup
+          defaultValue="keyword"
+          onChange={(value) => {
+            setType(value);
+            triggerSearch(value);
+          }}
+        >
+          <Radio value="keyword" paddingRight={2}>
+            Keyword
+          </Radio>
+          <Radio value="author" paddingRight={2}>
+            Author
+          </Radio>
+          <Radio value="title">Title</Radio>
+        </RadioGroup>
       </form>
-      <BookFilter getThatType={getType} />
     </Box>
   );
 };
