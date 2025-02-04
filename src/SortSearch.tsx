@@ -4,8 +4,10 @@ import useSearchBookStore from "./useSearchBookStore";
 const SortSearch = () => {
   const setSort = useSearchBookStore((s) => s.setSort);
   return (
-    <Box marginY={2}>
-      <Text marginY={1}>Sort by</Text>
+    <Box marginY={4}>
+      <Text align="left" marginY={1}>
+        Sort by
+      </Text>
       <Select
         onChange={(event) => {
           setSort(event.target.value);
