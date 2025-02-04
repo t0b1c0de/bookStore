@@ -41,7 +41,7 @@ const BooksList = () => {
               <Heading fontSize="3xl" padding={3}>
                 {dataSearched.numFound} Results Found
               </Heading>
-              {dataSearched.numFound !== 0 && <SortSearch />}
+              {dataSearched.numFound > 2 && <SortSearch />}
               <List>
                 {dataSearched.docs?.map((doc) => (
                   <ListItem key={doc.key}>{doc.title}</ListItem>
