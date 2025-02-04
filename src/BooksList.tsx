@@ -1,18 +1,11 @@
-import {
-  Box,
-  Heading,
-  List,
-  ListItem,
-  SimpleGrid,
-  Spinner,
-} from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid, Spinner } from "@chakra-ui/react";
 import BookCard from "./BookCard";
 import BookCardContainer from "./BookCardContainer";
 import useBooks from "./hooks/useOpenLibrary";
 import useSearchBook from "./hooks/useSearchBook";
 import SearchInput from "./SearchInput";
-import useSearchBookStore from "./useSearchBookStore";
 import SortSearch from "./SortSearch";
+import useSearchBookStore from "./useSearchBookStore";
 
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
@@ -20,7 +13,9 @@ const BooksList = () => {
   const params = useSearchBookStore((s) => s.params);
   const setMainParams = useSearchBookStore((s) => s.setMainParams);
 
-  const { dataSearched, isLoadingSearchBook } = useSearchBook();
+  const { newDataSearched, numFound, isLoadingSearchBook } = useSearchBook();
+
+  console.log(newDataSearched);
 
   if (error) return "Error";
 
@@ -39,14 +34,23 @@ const BooksList = () => {
           ) : (
             <Box>
               <Heading fontSize="3xl" padding={3}>
-                {dataSearched.numFound} Results Found
+                {numFound} Results Found
               </Heading>
-              {dataSearched.numFound > 2 && <SortSearch />}
-              <List>
-                {dataSearched.docs?.map((doc) => (
-                  <ListItem key={doc.key}>{doc.title}</ListItem>
-                ))}
-              </List>
+              {numFound > 2 && <SortSearch />}
+              <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={6}>
+                {newDataSearched
+                  .filter(
+                    (value, index, self) =>
+                      self.findIndex((item) => item.key === value.key) === index
+                  )
+                  .map((entry) => (
+                    <Box>
+                      <BookCardContainer key={entry.key}>
+                        <BookCard entry={entry} />
+                      </BookCardContainer>
+                    </Box>
+                  ))}
+              </SimpleGrid>
             </Box>
           )}
         </Box>
@@ -61,7 +65,7 @@ const BooksList = () => {
             <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={6}>
               {data?.reading_log_entries.map((entry) => (
                 <BookCardContainer key={entry.work.key}>
-                  <BookCard entry={entry} />
+                  <BookCard entry={entry.work} />
                 </BookCardContainer>
               ))}
             </SimpleGrid>

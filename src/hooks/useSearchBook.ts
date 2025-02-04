@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import useSearchBookStore from "../useSearchBookStore";
+import { Book } from "./useOpenLibrary";
 
 interface Datasearched {
   numFound: number;
@@ -10,6 +11,9 @@ interface Datasearched {
 interface BookSearched {
   key: string;
   title: string;
+  first_publish_year: number;
+  author_name: string[];
+  cover_i: number;
 }
 
 const useSearchBook = () => {
@@ -28,7 +32,17 @@ const useSearchBook = () => {
         });
     }, [params, type]);
 
-    return {dataSearched, isLoadingSearchBook};
+    const newDataSearched: Book[] = dataSearched.docs.map(book => ({
+      key: book.key,
+      title: book.title,
+      first_publish_year: book.first_publish_year,
+      author_names: book.author_name,
+      cover_id: book.cover_i,
+    }))
+    
+    const numFound = dataSearched.numFound;
+
+    return {newDataSearched , numFound, isLoadingSearchBook};
 }
 
 export default useSearchBook;

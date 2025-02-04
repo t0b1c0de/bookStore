@@ -6,11 +6,11 @@ import {
   Image,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { Book } from "./hooks/useOpenLibrary";
 import BookAttributes from "./BookAttributes";
-import { Reading_log_entry } from "./hooks/useOpenLibrary";
 
 interface Props {
-  entry: Reading_log_entry;
+  entry: Book;
 }
 
 const BookCard = ({ entry }: Props) => {
@@ -23,23 +23,37 @@ const BookCard = ({ entry }: Props) => {
         padding={2}
         height="80px"
       >
-        {entry?.work.title}
+        {entry?.title}
       </CardHeader>
       <CardBody>
         <SimpleGrid columns={{ base: 2 }}>
           <Box>
-            <Image
-              src={`https://covers.openlibrary.org/b/id/${entry?.work.cover_id}-M.jpg`}
-              _hover={{
-                transform: "scale(1.1)",
-                transition: "transform .15s ease-in",
-              }}
-              height="200px"
-              objectFit={"contain"}
-            />
+            {entry.cover_id ? (
+              <Image
+                src={`https://covers.openlibrary.org/b/id/${entry?.cover_id}-M.jpg`}
+                _hover={{
+                  transform: "scale(1.1)",
+                  transition: "transform .15s ease-in",
+                }}
+                height="200px"
+                objectFit={"contain"}
+              />
+            ) : (
+              <Image
+                src={
+                  "https://greenhousescribes.com/wp-content/uploads/2020/10/book-cover-generic.jpg"
+                }
+                _hover={{
+                  transform: "scale(1.1)",
+                  transition: "transform .15s ease-in",
+                }}
+                height="200px"
+                objectFit={"contain"}
+              />
+            )}
           </Box>
           <Box>
-            <BookAttributes work={entry.work}></BookAttributes>
+            <BookAttributes work={entry}></BookAttributes>
           </Box>
         </SimpleGrid>
       </CardBody>

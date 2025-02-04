@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Heading,
-  List,
-  ListItem,
-  Text
-} from "@chakra-ui/react";
+import { Box, Card, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import { Book } from "./hooks/useOpenLibrary";
 
 interface Props {
@@ -18,16 +11,20 @@ const BookAttributes = ({ work }: Props) => {
       <Box marginY={2}>
         <Heading fontSize="md">Author(s):</Heading>
         <List>
-          {work?.author_names
-            .filter((value, index, self) => self.indexOf(value) === index)
-            .map((author) => (
-              <ListItem key={author}>{author}</ListItem>
-            ))}
+          {work.author_names ? (
+            work?.author_names
+              .filter((value, index, self) => self.indexOf(value) === index)
+              .map((author) => <ListItem key={author}>{author}</ListItem>)
+          ) : (
+            <Text>Unknown</Text>
+          )}
         </List>
       </Box>
       <Box marginY={2}>
         <Heading fontSize="md">Year of publication:</Heading>
-        <Text>{work?.first_publish_year}</Text>
+        <Text>
+          {work.first_publish_year ? work?.first_publish_year : "Unknown"}
+        </Text>
       </Box>
     </Card>
   );
