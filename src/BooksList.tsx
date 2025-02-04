@@ -26,7 +26,7 @@ const BooksList = () => {
   return (
     <>
       <SearchInput onSearch={setMainParams} />
-      {params ? (
+      {params.q || params.title || params.author ? (
         <Box>
           {isLoadingSearchBook ? (
             <Box>

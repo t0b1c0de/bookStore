@@ -7,6 +7,7 @@ interface Props {
 const BookFilter = ({ getThatType }: Props) => {
   return (
     <RadioGroup
+      defaultValue="keyword"
       onChange={(value) => {
         getThatType(value);
       }}

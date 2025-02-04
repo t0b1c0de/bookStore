@@ -7,7 +7,7 @@ export interface Params {
 }
 
 export interface ParamsStore {
-  params: Params | {};
+  params: Params;
   setMainParams: (mainParams: string, type: string) => void;
   setKeyword: (newQ: string) => void;
   setAuthor: (newAutor: string) => void;
