@@ -1,12 +1,18 @@
 import { Box, Heading, Input } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import BookFilter from "./BookFilter";
 
 interface Props {
-  onSearch: (q: string) => void;
+  onSearch: (p: string, type: string) => void;
 }
 
 const SearchInput = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
+  const [type, setType] = useState("keyword");
+
+  const getType = (newType: string) => {
+    setType(newType);
+  };
 
   return (
     <Box padding={5} textAlign="left">
@@ -16,7 +22,9 @@ const SearchInput = ({ onSearch }: Props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (ref.current) onSearch(ref.current.value);
+          if (ref.current) {
+            onSearch(ref.current.value, type);
+          }
         }}
       >
         <Input
@@ -26,6 +34,7 @@ const SearchInput = ({ onSearch }: Props) => {
           variant="filled"
         />
       </form>
+      <BookFilter getThatType={getType} />
     </Box>
   );
 };

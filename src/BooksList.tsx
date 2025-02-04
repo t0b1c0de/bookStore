@@ -5,37 +5,33 @@ import {
   ListItem,
   SimpleGrid,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 import BookCardContainer from "./BookCardContainer";
 import useBooks from "./hooks/useOpenLibrary";
+import useSearchBook from "./hooks/useSearchBook";
 import SearchInput from "./SearchInput";
 import useSearchBookStore from "./useSearchBookStore";
-import useSearchBook from "./hooks/useSearchBook";
 
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
 
   const params = useSearchBookStore((s) => s.params);
-  const setKeyword = useSearchBookStore((s) => s.setKeyword);
+  const setMainParams = useSearchBookStore((s) => s.setMainParams);
 
   const { dataSearched, isLoadingSearchBook } = useSearchBook();
 
-  if (isLoading) return "Loading...";
-  if (error || !data) return "Error";
+  if (error) return "Error";
 
   return (
     <>
-      <SearchInput onSearch={setKeyword} />
-      {params.q ? (
+      <SearchInput onSearch={setMainParams} />
+      {params ? (
         <Box>
           {isLoadingSearchBook ? (
             <Box>
               <Heading fontSize="3xl" padding={3}>
-                Searching by keyword
+                Searching
               </Heading>
               <Spinner />
             </Box>
@@ -57,13 +53,17 @@ const BooksList = () => {
           <Heading fontSize="3xl" padding={3}>
             Books list
           </Heading>
-          <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={6}>
-            {data.reading_log_entries.map((entry) => (
-              <BookCardContainer key={entry.work.key}>
-                <BookCard entry={entry} />
-              </BookCardContainer>
-            ))}
-          </SimpleGrid>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={6}>
+              {data?.reading_log_entries.map((entry) => (
+                <BookCardContainer key={entry.work.key}>
+                  <BookCard entry={entry} />
+                </BookCardContainer>
+              ))}
+            </SimpleGrid>
+          )}
         </Box>
       )}
     </>
