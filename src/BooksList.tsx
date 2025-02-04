@@ -12,6 +12,7 @@ import useBooks from "./hooks/useOpenLibrary";
 import useSearchBook from "./hooks/useSearchBook";
 import SearchInput from "./SearchInput";
 import useSearchBookStore from "./useSearchBookStore";
+import SortSearch from "./SortSearch";
 
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
@@ -40,6 +41,7 @@ const BooksList = () => {
               <Heading fontSize="3xl" padding={3}>
                 {dataSearched.numFound} Results Found
               </Heading>
+              {dataSearched.numFound !== 0 && <SortSearch />}
               <List>
                 {dataSearched.docs?.map((doc) => (
                   <ListItem key={doc.key}>{doc.title}</ListItem>

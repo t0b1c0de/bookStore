@@ -4,16 +4,15 @@ export interface Params {
   q?: string;
   title?: string;
   author?: string; 
+  sort?: string;
 }
 
 export interface ParamsStore {
   params: Params;
   type: string;
   setMainParams: (mainParams: string, type: string) => void;
+  setSort: (newOrder: string) => void;
   setType: (newType: string) => void;
-  setKeyword: (newQ: string) => void;
-  setAuthor: (newAutor: string) => void;
-  setTitle: (newTitle: string) => void;
 }
 
 const useSearchBookStore = create<ParamsStore>((set) => ({
@@ -36,10 +35,8 @@ const useSearchBookStore = create<ParamsStore>((set) => ({
             
       }
     },
+    setSort: (newOrder) => set((store) => ({ params: { ...store.params, sort: newOrder } })),
     setType: (newType) => set(() => ({ type: newType })),
-    setKeyword: (q) => set(() => ({params: { q, title: "", author: "" }})),
-    setAuthor: (author) => set((store) => ({ params: { ...store.params, author }})),
-    setTitle: (title) => set((store) => ({ params: { ...store.params, title }})),
 })) 
 
 export default useSearchBookStore;

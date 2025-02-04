@@ -32,7 +32,7 @@ const SearchInput = ({ onSearch }: Props) => {
           triggerSearch(type);
         }}
       >
-        <HStack>
+        <HStack padding={2}>
           <Heading fontSize="xl" padding={2}>
             Search by
           </Heading>
