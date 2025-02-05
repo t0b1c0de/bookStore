@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../services/connection";
 import APIClient from "../services/api-client";
+import axiosInstance from "../services/connection";
+import useSearchBookStore from "../useSearchBookStore";
 
 const baseUrlOpenLibrary = import.meta.env.VITE_BASE_URL_OPEN_LIBRARY;
 
@@ -26,12 +27,15 @@ export interface Book {
     cover_id: number;
 }
 
+
 const apiClientOpenLibrary = new APIClient<FetchResponseBook>("/want-to-read.json",axiosOpenLibrary);
 
-
-const useBooks = () => useQuery({
-    queryKey: ["books"],
-    queryFn: apiClientOpenLibrary.getAll
-});
+const useBooks = () => {
+    const page = useSearchBookStore(s => s.page)
+    return useQuery({
+        queryKey: ["books", page],
+        queryFn:() => apiClientOpenLibrary.getAll({ params: { page: page }})
+    });
+} 
 
 export default useBooks;

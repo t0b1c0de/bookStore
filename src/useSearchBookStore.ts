@@ -10,6 +10,8 @@ export interface Params {
 export interface ParamsStore {
   params: Params;
   type: string;
+  page: number;
+  setPage: (newPage: number) => void;
   setMainParams: (mainParams: string, type: string) => void;
   setSort: (newOrder: string) => void;
   setType: (newType: string) => void;
@@ -18,6 +20,8 @@ export interface ParamsStore {
 const useSearchBookStore = create<ParamsStore>((set) => ({
     params: {}, 
     type: "keyword",
+    page: 1,
+    setPage: (newPage: number) => set(() => ({ page: newPage })),
     setMainParams: (mainParams: string, type: string) => {
       switch (type) {
         case "keyword":
