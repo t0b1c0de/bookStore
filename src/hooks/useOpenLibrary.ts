@@ -21,7 +21,7 @@ export interface Reading_log_entry {
 
 export interface Book {
     title: string;
-    author_names: string[];
+    author_names?: string[];
     first_publish_year: number;
     key: string;
     cover_id: number;
