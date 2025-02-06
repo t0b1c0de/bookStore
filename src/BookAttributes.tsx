@@ -8,7 +8,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Book } from "./hooks/useOpenLibrary";
-import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   work: Book;
@@ -25,7 +24,7 @@ const BookAttributes = ({ work }: Props) => {
               {work.author_names
                 .filter((value, index, self) => self.indexOf(value) === index)
                 .map((author) => (
-                  <ListItem key={uuidv4()}>{author}</ListItem>
+                  <ListItem key={author}>{author}</ListItem>
                 ))}
             </List>
           ) : (
