@@ -14,28 +14,15 @@ import useSearchBook from "./hooks/useSearchBook";
 import SearchInput from "./SearchInput";
 import SortSearch from "./SortSearch";
 import useSearchBookStore from "./useSearchBookStore";
+import usePage from "./hooks/usePage";
 
 const BooksList = () => {
   const { data, error, isLoading } = useBooks();
 
   const page = useSearchBookStore((s) => s.page);
   const setPage = useSearchBookStore((s) => s.setPage);
-  const [pageSize, setPageSize] = useState(1);
-  const [totalElement, setTotalElement] = useState(0);
-
-  const isInitialized = useRef(false);
-  useEffect(() => {
-    if (data && !isInitialized.current && data.numFound !== 0) {
-      setTotalElement(data.numFound);
-      setPageSize(
-        data.reading_log_entries.length < data.numFound
-          ? data.reading_log_entries.length
-          : data.numFound
-      );
-      isInitialized.current = true;
-    }
-  }, [data?.numFound]);
-  const lastPage = pageSize ? Math.ceil(totalElement / pageSize) : 1;
+  const [lastPage, setLastPage] = useState(page);
+  data && setLastPage(usePage({ data }));
 
   const params = useSearchBookStore((s) => s.params);
   const setMainParams = useSearchBookStore((s) => s.setMainParams);
@@ -107,7 +94,9 @@ const BooksList = () => {
                   </Button>
                 </Box>
                 <Box>
-                  <Text>Page {page}</Text>
+                  <Text>
+                    Page {page} / {lastPage}
+                  </Text>
                 </Box>
                 <Box>
                   <Button

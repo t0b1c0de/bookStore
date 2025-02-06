@@ -7,7 +7,7 @@ const baseUrlOpenLibrary = import.meta.env.VITE_BASE_URL_OPEN_LIBRARY;
 
 const axiosOpenLibrary = axiosInstance(baseUrlOpenLibrary);
 
-interface FetchResponseBook {
+export interface FetchResponseBook {
     page: number;
     numFound: number;
     reading_log_entries: Reading_log_entry[];
